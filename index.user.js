@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://uchuu.io/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Aims to provide a translate interface into Mastodon instances
 // @author       tomo@uchuu.io
 // @match        *://*/web/*
@@ -41,5 +41,5 @@
                 addTranslateLink(status);
             }
         }
-    }, 60000);
+    }, 30000);
 })();
