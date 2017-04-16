@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://uchuu.io/
-// @version      1.1.0
+// @version      1.2.0
 // @description  Aims to provide a translate interface into Mastodon instances
 // @author       tomo@uchuu.io
 // @match        *://*/web/*
@@ -25,6 +25,7 @@
                 var translatedText = resJson.text;
 
                 var translateArea = document.createElement('p');
+                translateArea.classList.add('toot__translation');
                 translateArea.innerHTML = '<i style="font-style: italic;">Translated:</i> '+translatedText;
 
                 status.querySelectorAll('div.status__content')[0].appendChild(translateArea);
@@ -36,18 +37,13 @@
     }
 
     function addTranslateLink(status) {
-        // console.log(status.querySelectorAll('div.status__content')[0]);
         var statusText = status.querySelectorAll('div.status__content')[0].textContent;
         var dropdown = status.querySelectorAll('div.dropdown__content.dropdown__right ul')[0];
 
         var separator = dropdown.querySelectorAll('li.dropdown__sep')[0];
 
         var listItem = document.createElement('li');
-        if (listItem.classList) {
-            listItem.classList.add('translate__toot');
-        } else {
-            listItem.className += ' ' + 'translate__toot';
-        }
+        listItem.classList.add('translate__toot');
 
         var link = document.createElement('a');
         // link.setAttribute('href', 'https://translate.google.com/#auto/en/'+statusText);
@@ -56,7 +52,9 @@
         link.textContent = 'Translate Toot';
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            getTranslation(status, 'en', statusText);
+            if (status.querySelectorAll('p.toot__translation').length === 0) {
+                getTranslation(status, 'en', statusText);
+            }
         }, false);
 
         listItem.appendChild(link);        
