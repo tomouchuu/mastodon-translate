@@ -12,8 +12,6 @@
 (function() {
     'use strict';
 
-    var loopTime = 30000;
-
     function getTranslation(status, language, text) {
         text = encodeURIComponent(text);
         GM_xmlhttpRequest({
@@ -65,14 +63,14 @@
         dropdown.insertBefore(listItem, separator);
     }
 
-    var statuses = document.getElementsByClassName('status');
-    setInterval(function() {
-        for (var i = 0; i < statuses.length; i++) {
-            var status = statuses[i];
+    document.querySelector('body').addEventListener('click', function(event) {
+        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList.contains('fa-ellipsis-h')) {
+            // Get the status for this event
+            var status = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
             var hasTranslateAlready = status.querySelectorAll('div.dropdown__content.dropdown__right ul li.translate__toot');
             if (hasTranslateAlready.length === 0) {
                 addTranslateLink(status);
             }
         }
-    }, loopTime);
+    });
 })();
