@@ -9,8 +9,7 @@ To install this script head to: https://github.com/tomouchuu/mastodon-translate/
 ### Limitations
 
 * Will only translate languages to english - [#1](https://github.com/tomouchuu/mastodon-translate/issues/1)
-* Will only work on niu.moe instance - [#2](https://github.com/tomouchuu/mastodon-translate/issues/2)
-* Forces you off the page rather than translating directly - [#3](https://github.com/tomouchuu/mastodon-translate/issues/3)
+* ~~Will only work on niu.moe instance~~ Kinda fixed - [#2](https://github.com/tomouchuu/mastodon-translate/issues/2)
 
 ### What it does
 
