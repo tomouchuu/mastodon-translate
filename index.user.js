@@ -41,5 +41,5 @@
                 addTranslateLink(status);
             }
         }
-    }, 1000);
+    }, 60000);
 })();
