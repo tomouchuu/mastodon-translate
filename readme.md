@@ -13,4 +13,4 @@ To install this script head to: https://github.com/tomouchuu/mastodon-translate/
 
 ### What it does
 
-The script loops through the page every second getting all the statuses and adds an option to the eplisips (...) to translate toot. Clicking this will open a new tab to google translate where it will attempt to auto detect the language of the toot and translate it into English.
+The script loops through the page every 60 seconds getting all the statuses and adds an option to the eplisips (...) to translate toot. Clicking this will open a new tab to google translate where it will attempt to auto detect the language of the toot and translate it into English.
