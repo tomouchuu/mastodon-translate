@@ -1,6 +1,6 @@
 # MastodonTranslate
 
-## A quick/dirty tampermonkey script to add a Translate Toot option to toots
+## A tampermonkey script to add a Translate Toot option to toots
 
 ### Install
 
