@@ -4,7 +4,7 @@
 
 ### Install
 
-To install this script head to: https://github.com/tomouchuu/mastodon-translate/raw/master/index.user.js
+You'll first want Tampermonkey/Greasemonkey for your relevant browser then to install this script head to: https://github.com/tomouchuu/mastodon-translate/raw/master/index.user.js and tampermonkey should prompt you to install the script.
 
 ### Limitations
 
