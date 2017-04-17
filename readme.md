@@ -8,9 +8,8 @@ To install this script head to: https://github.com/tomouchuu/mastodon-translate/
 
 ### Limitations
 
-* Will only translate languages to english - [#1](https://github.com/tomouchuu/mastodon-translate/issues/1)
 * ~~Will only work on niu.moe instance~~ Kinda fixed - [#2](https://github.com/tomouchuu/mastodon-translate/issues/2)
 
 ### What it does
 
-The script loops through the page every 30 seconds getting all the statuses and adds an option to the eplisips (...) to translate toot. Clicking this will open a new tab to google translate where it will attempt to auto detect the language of the toot and translate it into English.
+Upon clicking the ellipsis (...) you should see an option to translate toot, click this will translate the toot into english by default. To change this to your desired language, head to your mastodon preferences in settings and you should see an option for translate language. Select the language you'd like and then save changes, head back to the feed and refresh the page.
