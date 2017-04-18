@@ -20,4 +20,4 @@ If you haven't yet agreed to using Google Translate it will take you to your pre
 
 ### Issues
 
-If you're having issues with the script, please feel free to reach out to me by raising an issue here or messaging me on mastodon at https://niu.moe/@tomo or @tomouchuu on twitter.
+If you're having issues with the script, please feel free to reach out to me by raising an issue here or messaging me on mastodon at https://niu.moe/@tomo or [@tomouchuu](https://www.twitter.com/tomouchuu) on twitter.
