@@ -8,12 +8,19 @@
 // @match        *://*/settings/preferences
 // @connect      translate.uchuu.io
 // @grant        GM_getValue
-// @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
 (function() {
     'use strict';
+
+    // Set Defaults if not set
+    if(!localStorage.getItem('toggle')) {
+        localStorage.setItem('toggle', GM_getValue('toggle', 'false'));
+    }
+    if(!localStorage.getItem('lang')) {
+        localStorage.setItem('lang', GM_getValue('lang', 'en'));
+    }
 
     function getTranslation(status, language, text) {
         text = encodeURIComponent(text);
@@ -55,14 +62,14 @@
         link.textContent = 'Translate Toot';
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            if (GM_getValue('toggle') && status.querySelectorAll('p.toot__translation').length === 0) {
-                getTranslation(status, GM_getValue('lang', 'en'), statusText);
-            } else if (!GM_getValue('toggle')) {
+            if (localStorage.getItem('toggle') == 'true' && status.querySelectorAll('p.toot__translation').length === 0) {
+                getTranslation(status, localStorage.getItem('lang'), statusText);
+            } else if (localStorage.getItem('toggle') == 'false') {
                 window.location.href = window.location.origin + '/settings/preferences#translation_notice';
             }
         }, false);
 
-        listItem.appendChild(link);        
+        listItem.appendChild(link);
         dropdown.insertBefore(listItem, separator);
     }
 
@@ -71,11 +78,11 @@
             event.preventDefault();
             var toggle = document.getElementById('user_translation_enabled');
             var selectedToggle = toggle.checked;
-            GM_setValue('toggle', selectedToggle);
+            localStorage.setItem('toggle', selectedToggle);
 
             var input = document.getElementById('translation_locale');
             var selectedLanguage = input.options[input.selectedIndex].value;
-            GM_setValue('lang', selectedLanguage);
+            localStorage.setItem('lang', selectedLanguage);
 
             setTimeout(function() {
                 document.querySelector('body').removeEventListener('click', saveSettings, false);
@@ -116,7 +123,7 @@
         toggle.classList.add('user_translation_enabled');
         toggle.innerHTML = '<div class="label_input"><input value="0" type="hidden" name="user[translation_enabled]"><label class="boolean optional checkbox" for="user_translation_enabled"><input class="boolean optional" type="checkbox" value="1" name="user[translation_enabled]" id="user_translation_enabled">I\'m happy to use Google Translate</label></div>';
         var checkbox = toggle.querySelector('input#user_translation_enabled');
-        checkbox.checked = GM_getValue('toggle', false);
+        checkbox.checked = (localStorage.getItem('toggle') == 'true');
 
         var languageDiv = settingsGroup.children[0];
         languageDiv.classList.remove('user_locale');
@@ -127,7 +134,7 @@
         var input = languageDiv.children[0].children[1];
         input.setAttribute('name', 'user[translation]');
         input.setAttribute('id', 'translation_locale');
-        input.value = GM_getValue('lang', 'en');
+        input.value = localStorage.getItem('lang');
 
         settingsGroup.insertBefore(notice, languageDiv);
         settingsGroup.insertBefore(toggle, languageDiv);
