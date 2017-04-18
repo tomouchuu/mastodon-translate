@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         MastodonTranslate
-// @namespace    https://uchuu.io/
-// @version      1.4.0
+// @namespace    https://niu.moe/@tomo
+// @version      1.4.1
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
-// @author       tomo@uchuu.io
+// @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
 // @match        *://*/settings/preferences
 // @connect      translate.uchuu.io
@@ -105,6 +105,7 @@
 
         var notice = document.createElement('div');
         var noticeMsg = 'Translation is currently provided by Google Translate, if you\'re not happy with this please don\'t check the checkbox below or just uninstall the script. I\'m looking to offer alternatives to Google which you can track here: <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues/6">https://github.com/tomouchuu/mastodon-translate/issues/6</a>';
+        noticeMsg += '<br>If you have an issue please give me a buzz <a style="color: #2b90d9" href="https://niu.moe/@tomo">@tomo@niu.moe</a> via mastodon or raise an issue on <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues">Github</a>';
         notice.setAttribute('id', 'translation_notice');
         notice.innerHTML = '<h3 style="color: #d9e1e8; font-size: 20px; line-height: 24px; font-weight: 400; margin-bottom: 20px;">Tampermonkey Translation Script</h3><p style="margin-bottom: 20px;">'+noticeMsg+'</p>';
 
