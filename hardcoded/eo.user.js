@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate-EO
 // @namespace    https://niu.moe/@tomo
-// @version      1.5.0
+// @version      1.6.0
 // @description  Provides a translate toot option into Esperanto only for Mastodon users via GoogleTranslate. By installing this script you agree for the script to use Google Translate.
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -34,6 +34,8 @@
                 translateArea.innerHTML = '<i style="font-style: italic;">Translated:</i> '+translatedText;
 
                 status.querySelector('div.status__content').appendChild(translateArea);
+                status.querySelector('li.translate__toot a').textContent = 'Translate Toot';
+                status.querySelector('i.fa.fa-ellipsis-h').click();
             },
             onerror: function() {
                 console.log('There was an error');
@@ -58,6 +60,7 @@
         link.addEventListener('click', function(e) {
             e.preventDefault();
             if (status.querySelectorAll('p.toot__translation').length === 0) {
+                link.textContent = 'Loading...';
                 getTranslation(status, lang, statusText);
             }
         }, false);
