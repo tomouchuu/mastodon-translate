@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.6.1
+// @version      1.7.0
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -79,7 +79,7 @@
     }
 
     function saveSettings(event) {
-        if (event.target.tagName.toLowerCase() === 'button' && event.target.textContent === 'Save changes') {
+        if (event.target.tagName.toLowerCase() === 'button' && event.target.getAttribute('type') === 'submit') {
             event.preventDefault();
             var toggle = document.getElementById('user_translation_enabled');
             var selectedToggle = toggle.checked;
