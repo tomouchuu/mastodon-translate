@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.0
+// @version      1.7.1
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -52,30 +52,31 @@
 
     function addTranslateLink(status) {
         var statusText = status.querySelector('div.status__content').textContent;
-        var dropdown = status.querySelector('div.dropdown__content.dropdown__right ul');
+        setTimeout(function() {
+            var dropdown = status.querySelector('div.dropdown__content.dropdown__right ul');
+            var separator = dropdown.querySelector('li.dropdown__sep');
 
-        var separator = dropdown.querySelector('li.dropdown__sep');
+            var listItem = document.createElement('li');
+            listItem.classList.add('translate__toot');
 
-        var listItem = document.createElement('li');
-        listItem.classList.add('translate__toot');
+            var link = document.createElement('a');
+            // link.setAttribute('href', 'https://translate.google.com/#auto/en/'+statusText);
+            link.setAttribute('href', '#');
+            link.setAttribute('target', '_blank');
+            link.textContent = 'Translate Toot';
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (localStorage.getItem('toggle') == 'true' && status.querySelectorAll('p.toot__translation').length === 0) {
+                    link.textContent = 'Loading...';
+                    getTranslation(status, localStorage.getItem('lang'), statusText);
+                } else if (localStorage.getItem('toggle') == 'false') {
+                    window.location.href = window.location.origin + '/settings/preferences#translation_notice';
+                }
+            }, false);
 
-        var link = document.createElement('a');
-        // link.setAttribute('href', 'https://translate.google.com/#auto/en/'+statusText);
-        link.setAttribute('href', '#');
-        link.setAttribute('target', '_blank');
-        link.textContent = 'Translate Toot';
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (localStorage.getItem('toggle') == 'true' && status.querySelectorAll('p.toot__translation').length === 0) {
-                link.textContent = 'Loading...';
-                getTranslation(status, localStorage.getItem('lang'), statusText);
-            } else if (localStorage.getItem('toggle') == 'false') {
-                window.location.href = window.location.origin + '/settings/preferences#translation_notice';
-            }
-        }, false);
-
-        listItem.appendChild(link);
-        dropdown.insertBefore(listItem, separator);
+            listItem.appendChild(link);
+            dropdown.insertBefore(listItem, separator);
+        }, 100);
     }
 
     function saveSettings(event) {
