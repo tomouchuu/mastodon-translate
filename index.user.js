@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.1
+// @version      1.7.2
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -39,8 +39,9 @@
                 translateArea.innerHTML = '<i style="font-style: italic;">Translated:</i> '+translatedText;
 
                 status.querySelector('div.status__content').appendChild(translateArea);
-                status.querySelector('li.translate__toot a').textContent = 'Translate Toot';
-                if (status.querySelector('div.dropdown.dropdown--active') !== null) {
+
+                document.querySelector('li.translate__toot').remove();
+                if (document.querySelector('div.dropdown-menu') !== null) {
                     status.querySelector('i.fa.fa-ellipsis-h').click();
                 }
             },
@@ -53,10 +54,12 @@
     function addTranslateLink(status) {
         var statusText = status.querySelector('div.status__content').textContent;
         setTimeout(function() {
-            var dropdown = status.querySelector('div.dropdown__content.dropdown__right ul');
-            var separator = dropdown.querySelector('li.dropdown__sep');
+            // var dropdown = status.querySelector('div.status__action-bar-dropdown');
+            var dropdown = document.querySelector('div.dropdown-menu ul');
+            var separator = dropdown.querySelector('li.dropdown-menu__separator');
 
             var listItem = document.createElement('li');
+            listItem.classList.add('dropdown-menu__item');
             listItem.classList.add('translate__toot');
 
             var link = document.createElement('a');
@@ -98,13 +101,10 @@
     }
 
     document.querySelector('body').addEventListener('click', function(event) {
-        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList.contains('fa-ellipsis-h')) {
+        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList.contains('fa-ellipsis-h') && document.querySelector('div.dropdown-menu') === null) {
             // Get the status for this event
             var status = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-            var hasTranslateAlready = status.querySelectorAll('div.dropdown__content.dropdown__right ul li.translate__toot');
-            if (hasTranslateAlready.length === 0) {
-                addTranslateLink(status);
-            }
+            addTranslateLink(status);
         }
     }, false);
 
