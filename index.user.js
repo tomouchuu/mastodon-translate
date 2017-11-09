@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.2
+// @version      1.7.3
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -100,8 +100,24 @@
         }
     }
 
+    function chromeClickChecker(event) {
+        return(
+            event.target.tagName.toLowerCase() === 'i' &&
+            event.target.classList.contains('fa-ellipsis-h') &&
+            document.querySelector('div.dropdown-menu') === null
+        );
+    }
+
+    function firefoxClickChecker(event) {
+        return(
+            event.target.tagName.toLowerCase() === 'button' &&
+            event.target.classList.contains('icon-button') &&
+            document.querySelector('div.dropdown-menu') === null
+        );
+    }
+
     document.querySelector('body').addEventListener('click', function(event) {
-        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList.contains('fa-ellipsis-h') && document.querySelector('div.dropdown-menu') === null) {
+        if (chromeClickChecker(event) || firefoxClickChecker(event)) {
             // Get the status for this event
             var status = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
             addTranslateLink(status);
