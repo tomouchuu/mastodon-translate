@@ -1,14 +1,18 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.3
+// @version      1.7.4
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
 // @match        *://*/settings/preferences
 // @connect      translate.uchuu.io
+// @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @grant        GM.getValue
 // @grant        GM_getValue
 // @grant        GM_xmlhttpRequest
+// @grant        GM_xmlHttpRequest
+// @grant        GM.xmlHttpRequest
 // ==/UserScript==
 
 (function() {
@@ -23,13 +27,15 @@
     }
 
     function getTranslation(status, language, text) {
-        text = encodeURIComponent(text);
-        GM_xmlhttpRequest({
+        var encodedText = encodeURIComponent(text);
+        var url = "https://translate.uchuu.io/"+language+'/'+encodedText;
+
+        GM.xmlHttpRequest({
             method: 'GET',
             headers: {
                 'Accept': 'application/json'
             },
-            url: "https://translate.uchuu.io/"+language+'/'+text,
+            url: url,
             onload: function(res) {
                 var resJson = JSON.parse(res.responseText);
                 var translatedText = resJson.text;
@@ -44,6 +50,12 @@
                 if (document.querySelector('div.dropdown-menu') !== null) {
                     status.querySelector('i.fa.fa-ellipsis-h').click();
                 }
+            },
+            onabort: function() {
+                console.log('There was an abort');
+            },
+            ontimeout: function() {
+                console.log('It timeout');
             },
             onerror: function() {
                 console.log('There was an error');
