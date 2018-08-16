@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.4
+// @version      1.7.5
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -142,13 +142,14 @@
         var actions = document.querySelector('div.actions');
 
         var settingsGroup = form.querySelector('div.fields-group').cloneNode(true);
-        settingsGroup.children[1].remove(); // Remove the privacy element from the clone
+        settingsGroup.children[1].remove(); // Remove the posting language
+        settingsGroup.children[1].remove(); // Remove the filtered language
 
         var notice = document.createElement('div');
         var noticeMsg = 'Translation is currently provided by Google Translate, if you\'re not happy with this please don\'t check the checkbox below or just uninstall the script. I\'m looking to offer alternatives to Google which you can track here: <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues/6">https://github.com/tomouchuu/mastodon-translate/issues/6</a>';
         noticeMsg += '<br>If you have an issue please give me a buzz <a style="color: #2b90d9" href="https://niu.moe/@tomo">@tomo@niu.moe</a> via mastodon or raise an issue on <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues">Github</a>';
         notice.setAttribute('id', 'translation_notice');
-        notice.innerHTML = '<h3 style="color: #d9e1e8; font-size: 20px; line-height: 24px; font-weight: 400; margin-bottom: 20px;">Tampermonkey Translation Script</h3><p style="margin-bottom: 20px;">'+noticeMsg+'</p>';
+        notice.innerHTML = '<h4>Tampermonkey Translation Script</h4><p style="margin-bottom: 20px;">'+noticeMsg+'</p>';
 
         var toggle = document.createElement('div');
         toggle.classList.add('input');
@@ -169,11 +170,12 @@
         input.setAttribute('name', 'user[translation]');
         input.setAttribute('id', 'translation_locale');
         input.value = localStorage.getItem('lang');
+        languageDiv.children[1].textContent = 'The language to translate toots into';
 
         settingsGroup.insertBefore(notice, languageDiv);
         settingsGroup.insertBefore(toggle, languageDiv);
 
-        form.insertBefore(settingsGroup, actions);
+        form.insertBefore(settingsGroup, actions.nextSibling);
 
         document.querySelector('body').addEventListener('click', saveSettings, false);
     }
