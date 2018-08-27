@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.7.5
+// @version      1.8.0
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -128,13 +128,27 @@
         );
     }
 
-    document.querySelector('body').addEventListener('click', function(event) {
-        if (chromeClickChecker(event) || firefoxClickChecker(event)) {
-            // Get the status for this event
-            var status = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-            addTranslateLink(status);
+    function activateMastodonTranslate() {
+        document.querySelector('body').addEventListener('click', function(event) {
+            if (chromeClickChecker(event) || firefoxClickChecker(event)) {
+                // Get the status for this event
+                var status = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+                addTranslateLink(status);
+            }
+        }, false);
+    }
+
+    // Launch Script
+    setTimeout(function() {
+        // Checks we're on a mastodon instance
+        var settingsEl = document.querySelector('a.drawer__tab[title="Preferences"]');
+        var settingsUrl = settingsEl.getAttribute('href');
+        if (settingsUrl === '/settings/preferences') {
+            activateMastodonTranslate();
+        } else {
+            // Probably on the mastofe of pleroma or something
         }
-    }, false);
+    }, 100);
 
     if (window.location.pathname === '/settings/preferences') {
         // We're on the settings page
