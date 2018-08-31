@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.8.2
+// @version      1.8.3
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -139,21 +139,24 @@
     }
 
     // Launch Script
-    console.log(`Translate Script v${GM.info.script.version} Activating...`);
-    window.addEventListener("load", function() {
-        if (window.innerWidth > 630) {
-            // Checks we're on a mastodon instance
-            var settingsEl = document.querySelector('a.drawer__tab[title="Preferences"]');
-            var settingsUrl = settingsEl.getAttribute('href');
-            if (settingsUrl === '/settings/preferences') {
-                activateMastodonTranslate();
-            } else {
-                // Probably on the mastofe of pleroma or something
-            }
-        } else {
-            console.log('Sorry, desktop only');
-        }
-    }, false);
+    // console.log(`Translate Script v${GM.info.script.version} Activating...`);
+    // window.addEventListener("load", function() {
+    //     if (window.innerWidth > 630) {
+    //         // Checks we're on a mastodon instance
+    //         var settingsEl = document.querySelector('a.drawer__tab[title="Preferences"]');
+    //         var settingsUrl = settingsEl.getAttribute('href');
+    //         if (settingsUrl === '/settings/preferences') {
+    //             activateMastodonTranslate();
+    //         } else {
+    //             // Probably on the mastofe of pleroma or something
+    //         }
+    //     } else {
+    //         console.log('Sorry, desktop only');
+    //     }
+    // }, false);
+
+    // Attempting to fix @Ytrezar's issue
+    activateMastodonTranslate();
 
     if (window.location.pathname === '/settings/preferences') {
         // We're on the settings page
