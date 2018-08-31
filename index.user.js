@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.8.1
+// @version      1.8.2
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -139,6 +139,7 @@
     }
 
     // Launch Script
+    console.log(`Translate Script v${GM.info.script.version} Activating...`);
     window.addEventListener("load", function() {
         if (window.innerWidth > 630) {
             // Checks we're on a mastodon instance
@@ -150,7 +151,7 @@
                 // Probably on the mastofe of pleroma or something
             }
         } else {
-            console.log('Sorry, only desktop');
+            console.log('Sorry, desktop only');
         }
     }, false);
 
