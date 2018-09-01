@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.8.3
+// @version      1.8.4
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -66,7 +66,6 @@
     function addTranslateLink(status) {
         var statusText = status.querySelector('div.status__content').textContent;
         setTimeout(function() {
-            // var dropdown = status.querySelector('div.status__action-bar-dropdown');
             var dropdown = document.querySelector('div.dropdown-menu ul');
             var separator = dropdown.querySelector('li.dropdown-menu__separator');
 
@@ -75,7 +74,6 @@
             listItem.classList.add('translate__toot');
 
             var link = document.createElement('a');
-            // link.setAttribute('href', 'https://translate.google.com/#auto/en/'+statusText);
             link.setAttribute('href', '#');
             link.setAttribute('target', '_blank');
             link.textContent = 'Translate Toot';
@@ -91,7 +89,7 @@
 
             listItem.appendChild(link);
             dropdown.insertBefore(listItem, separator);
-        }, 100);
+        }, 300);
     }
 
     function saveSettings(event) {
@@ -139,7 +137,7 @@
     }
 
     // Launch Script
-    // console.log(`Translate Script v${GM.info.script.version} Activating...`);
+    console.log(`Translate Script v${GM.info.script.version} Activating...`);
     // window.addEventListener("load", function() {
     //     if (window.innerWidth > 630) {
     //         // Checks we're on a mastodon instance
