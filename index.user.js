@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.8.6
+// @version      1.8.7
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -89,7 +89,7 @@
 
             listItem.appendChild(link);
             dropdown.insertBefore(listItem, separator);
-        }, 300);
+        }, 100);
     }
 
     function saveSettings(event) {
@@ -138,23 +138,20 @@
 
     // Launch Script
     console.log(`Translate Script v${GM.info.script.version} Activating...`);
-    // window.addEventListener("load", function() {
-    //     if (window.innerWidth > 630) {
-    //         // Checks we're on a mastodon instance
-    //         var settingsEl = document.querySelector('a.drawer__tab[title="Preferences"]');
-    //         var settingsUrl = settingsEl.getAttribute('href');
-    //         if (settingsUrl === '/settings/preferences') {
-    //             activateMastodonTranslate();
-    //         } else {
-    //             // Probably on the mastofe of pleroma or something
-    //         }
-    //     } else {
-    //         console.log('Sorry, desktop only');
-    //     }
-    // }, false);
-
-    // Attempting to fix @Ytrezar's issue
-    activateMastodonTranslate();
+    window.addEventListener("load", function() {
+        if (window.innerWidth > 630) {
+            // Checks we're on a mastodon instance
+            var settingsEl = document.querySelector('i.fa.fa-fw.fa-cog').parentElement;
+            var settingsUrl = settingsEl.getAttribute('href');
+            if (settingsUrl === '/settings/preferences') {
+                activateMastodonTranslate();
+            } else {
+                // Probably on the mastofe of pleroma or something
+            }
+        } else {
+            console.log('Sorry, desktop only');
+        }
+    }, false);
 
     if (window.location.pathname === '/settings/preferences') {
         // We're on the settings page
