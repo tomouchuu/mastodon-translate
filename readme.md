@@ -12,7 +12,7 @@ Next head to your instance and head to your preferences (/settings/preferences) 
 
 * ~~Will only work on niu.moe instance~~ Kinda fixed - [#2](https://github.com/tomouchuu/mastodon-translate/issues/2)
 * No mobile version as we can't detect due too...
-* Only mastodon web (No Pleroma MastoFE) due to checking for settings page (See b1089be0e2380e066e962dcf487e838e3ee3ed1e)
+* Only mastodon web (No Pleroma MastoFE) due to checking for settings page ([see this commit](https://github.com/tomouchuu/mastodon-translate/commit/b1089be0e2380e066e962dcf487e838e3ee3ed1e#diff-69190d6f0d24b28a691a91348b1e79a0R142))
 
 ### What it does
 
