@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.8.7
+// @version      1.9.0
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -158,41 +158,52 @@
         var form = document.querySelector('form.simple_form');
         var actions = document.querySelector('div.actions');
 
-        var settingsGroup = form.querySelector('div.fields-group').cloneNode(true);
-        settingsGroup.children[1].remove(); // Remove the posting language
-        settingsGroup.children[1].remove(); // Remove the filtered language
+        var settingsGroup = form.querySelectorAll('div.fields-group')[2].cloneNode(true);
+        settingsGroup.children[0].remove();
 
         var notice = document.createElement('div');
         var noticeMsg = 'Translation is currently provided by Google Translate, if you\'re not happy with this please don\'t check the checkbox below or just uninstall the script. I\'m looking to offer alternatives to Google which you can track here: <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues/6">https://github.com/tomouchuu/mastodon-translate/issues/6</a>';
         noticeMsg += '<br>If you have an issue please give me a buzz <a style="color: #2b90d9" href="https://niu.moe/@tomo">@tomo@niu.moe</a> via mastodon or raise an issue on <a style="color: #2b90d9" href="https://github.com/tomouchuu/mastodon-translate/issues">Github</a>';
         notice.setAttribute('id', 'translation_notice');
-        notice.innerHTML = '<h4>Tampermonkey Translation Script</h4><p style="margin-bottom: 20px;">'+noticeMsg+'</p>';
+        notice.classList.add('input');
+        notice.classList.add('with_block_label');
+        notice.classList.add('check_boxes');
+        notice.classList.add('field_with_hint');
+        notice.innerHTML = '<label class="check_boxes optional">Tampermonkey Translation Script</label><span class="hint">'+noticeMsg+'</span>';
 
-        var toggle = document.createElement('div');
-        toggle.classList.add('input');
-        toggle.classList.add('boolean');
-        toggle.classList.add('optional');
-        toggle.classList.add('user_translation_enabled');
-        toggle.innerHTML = '<div class="label_input"><input value="0" type="hidden" name="user[translation_enabled]"><label class="boolean optional checkbox" for="user_translation_enabled"><input class="boolean optional" type="checkbox" value="1" name="user[translation_enabled]" id="user_translation_enabled">I\'m happy to use Google Translate</label></div>';
-        var checkbox = toggle.querySelector('input#user_translation_enabled');
+        var toggleArea = document.createElement('ul');
+        toggleArea.style.cssText = "-webkit-columns: 1; columns: 1;";
+        var toggleInput = document.createElement('li');
+        toggleInput.classList.add('checkbox');
+        toggleInput.innerHTML = '<label for="user_translation_enabled" style="padding-top: 2px;"><input class="check_boxes optional" type="checkbox" value="1" name="user[translation_enabled]" id="user_translation_enabled">I\'m happy to use Google Translate</label>';
+        var checkbox = toggleInput.querySelector('input#user_translation_enabled');
         checkbox.checked = (localStorage.getItem('toggle') == 'true');
+        toggleArea.appendChild(toggleInput);
 
-        var languageDiv = settingsGroup.children[0];
+        notice.appendChild(toggleArea);
+
+        var languageArea = form.querySelector('div.fields-group').cloneNode(true);
+        languageArea.classList.remove('fields-row__column');
+        languageArea.classList.remove('fields-row__column-6');
+        var languageDiv = languageArea.querySelector('div.user_locale');
         languageDiv.classList.remove('user_locale');
         languageDiv.classList.add('translation_locale');
+
         var label = languageDiv.children[0].children[0];
         label.setAttribute('for', 'translation_locale');
         label.textContent = 'Translation Language';
-        var input = languageDiv.children[0].children[1];
+
+        var input = languageDiv.children[0].children[1].children[0];
         input.setAttribute('name', 'user[translation]');
         input.setAttribute('id', 'translation_locale');
         input.value = localStorage.getItem('lang');
+
         languageDiv.children[1].textContent = 'The language to translate toots into';
 
-        settingsGroup.insertBefore(notice, languageDiv);
-        settingsGroup.insertBefore(toggle, languageDiv);
+        settingsGroup.appendChild(notice);
+        settingsGroup.appendChild(languageArea);
 
-        form.insertBefore(settingsGroup, actions.nextSibling);
+        form.insertBefore(settingsGroup, form.firstChild);
 
         document.querySelector('body').addEventListener('click', saveSettings, false);
     }
