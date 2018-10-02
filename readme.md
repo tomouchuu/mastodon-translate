@@ -11,6 +11,8 @@ Next head to your instance and head to your preferences (/settings/preferences) 
 ### Limitations
 
 * ~~Will only work on niu.moe instance~~ Kinda fixed - [#2](https://github.com/tomouchuu/mastodon-translate/issues/2)
+* No mobile version as we can't detect due too...
+* Only mastodon web (No Pleroma MastoFE) due to checking for settings page (See b1089be0e2380e066e962dcf487e838e3ee3ed1e)
 
 ### What it does
 
