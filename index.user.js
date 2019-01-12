@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MastodonTranslate
 // @namespace    https://niu.moe/@tomo
-// @version      1.9.0
+// @version      1.10.0
 // @description  Provides a translate toot option for Mastodon users via GoogleTranslate
 // @author       tomo@uchuu.io / https://niu.moe/@tomo
 // @match        *://*/web/*
@@ -26,8 +26,24 @@
         localStorage.setItem('lang', GM_getValue('lang', 'en'));
     }
 
-    function getTranslation(status, language, text) {
-        var encodedText = encodeURIComponent(text);
+    function stripMentions(text) {
+        var regex = /(@[a-z0-9]+)/;
+        var mentions = [];
+
+        var cleanText = text.replace(regex, function(match) {
+            mentions.push(match);
+            return '';
+        }).trim();
+
+        return {
+            mentions,
+            text: cleanText
+        }
+    }
+
+    function getTranslation(status, language) {
+        var statusDetail = stripMentions(status.querySelector('div.status__content').textContent);
+        var encodedText = encodeURIComponent(statusDetail.text);
         var url = "https://translate.uchuu.io/"+language+'/'+encodedText;
 
         GM.xmlHttpRequest({
@@ -38,7 +54,7 @@
             url: url,
             onload: function(res) {
                 var resJson = JSON.parse(res.responseText);
-                var translatedText = resJson.text;
+                var translatedText = statusDetail.mentions.join(' ') + ' ' + resJson.text;
 
                 var translateArea = document.createElement('p');
                 translateArea.classList.add('toot__translation');
@@ -64,7 +80,6 @@
     }
 
     function addTranslateLink(status) {
-        var statusText = status.querySelector('div.status__content').textContent;
         setTimeout(function() {
             var dropdown = document.querySelector('div.dropdown-menu ul');
             var separator = dropdown.querySelector('li.dropdown-menu__separator');
@@ -81,7 +96,7 @@
                 e.preventDefault();
                 if (localStorage.getItem('toggle') == 'true' && status.querySelectorAll('p.toot__translation').length === 0) {
                     link.textContent = 'Loading...';
-                    getTranslation(status, localStorage.getItem('lang'), statusText);
+                    getTranslation(status, localStorage.getItem('lang'));
                 } else if (localStorage.getItem('toggle') == 'false') {
                     window.location.href = window.location.origin + '/settings/preferences#translation_notice';
                 }
