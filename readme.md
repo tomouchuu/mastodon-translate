@@ -1,3 +1,8 @@
+Probably very out of date and not maintained as I don't really use mastodon anymore
+Feel free to fork or PR!
+
+----
+
 # MastodonTranslate
 
 ## A tampermonkey script to add a Translate Toot option to toots via GoogleTranslate
