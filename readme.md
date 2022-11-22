@@ -1,5 +1,11 @@
+# NOTES, please read
+
 Probably very out of date and not maintained as I don't really use mastodon anymore
 Feel free to fork or PR!
+
+You're _probably_ better off looking into https://github.com/Gottox/greasemonkey-mastodon-translate as it uses DeepL (which I think is way better than GoogleTranslate) and is actually seeing development.
+
+Just incase you want to still see this one...
 
 ----
 
